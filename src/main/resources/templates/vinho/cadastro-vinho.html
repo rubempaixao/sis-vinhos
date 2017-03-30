@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout-padrao}">
+
+<body>
+<section layout:fragment="conteudo">
+
+
+<div class="page-header">
+	<div class="container-fluid">
+		<h1>
+			Cadastro de vinho
+		</h1>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<form method="POST" class="form-vertical  js-form-loading" 
+			th:object="${vinho}" th:Action="@{/vinhos/novo}">
+		<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<th:block th:each="error : ${#fields.detailedErrors()}">
+				<div>
+					<i class="fa  fa-exclamation-circle"></i>
+					<span th:text="${error.message}"></span>
+				</div>
+			</th:block>
+	    </div>
+	    
+	    <div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+	    </div>
+	    
+	    <input type="hidden" th:field="*{codigo}"/>
+	    
+		<div class="form-group">
+			<label for="input-produto-nome">Nome</label>
+			<input id="nome" type="text" class="form-control" th:field="*{nome}"/>
+		</div>
+
+		<!-- <div class="form-group">
+			<label for="input-produto-descricao">Descrição</label>
+			<textarea id="input-produto-descricao" rows="3" class="form-control"></textarea>
+		</div> -->
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="input-produto-preco">Tipo</label>
+					<select id="tipo" class="form-control" th:field="*{tipo}">
+						<option value="">Selecione o tipo</option>
+						<option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="#{|tipoVinho.${tipo}|}"></option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="input-produto-estoque">Valor</label>
+					<input id="valor" type="text" class="form-control  js-moeda" th:field="*{valor}"/>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<button class="btn  btn-primary" type="submit">Salvar</button>
+			<!-- <a href="pesquisa-produtos.html" class="btn  btn-default">Cancelar</a>
+			<a href="#" class="btn  btn-link  aw-btn-link-danger" onclick="excluir()">Excluir este produto</a> -->
+		</div>
+	</form>
+</div>
+
+<!-- <script>
+function excluir() {
+	swal({
+		title: "Tem certeza?",
+		text: "Você não poderá recuperar o produto após a exclusão.",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "Sim, exclua agora!",
+		closeOnConfirm: false,
+		showLoaderOnConfirm: true
+	}, function() {
+		setTimeout(function() {
+			swal("Excluído!", "O produto foi excluído com sucesso.", "success");
+		}, 2000);
+	});
+}
+</script> -->
+</section>
+</body>
+</html>
